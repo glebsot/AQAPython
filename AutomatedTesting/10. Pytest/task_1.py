@@ -26,4 +26,5 @@ def generate_random_name():
         word2 += chr(random.randint(97, 122))
     yield f'{word1} {word2}'
 
+
 print(next(generate_random_name()))
