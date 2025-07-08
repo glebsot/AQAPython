@@ -28,6 +28,8 @@ def generate_random_name():
         final_list.append(word2)
         yield f'{final_list[0]} {final_list[1]}'
 
+# просто на посмотреть
+
 
 gen = generate_random_name()
 print(next(gen))
