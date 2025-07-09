@@ -10,8 +10,39 @@ import pytest
 
 
 def all_division(*arg1):
-
     division = arg1[0]
     for i in arg1[1:]:
         division /= i
     return division
+
+
+@pytest.mark.smoke
+def test_division_without_remainder():  # Простое деление
+    assert all_division(30, 2) == 15
+
+
+@pytest.mark.smoke
+def test_multiple_fission():  # Множественное деление
+    assert all_division(240, 3, 2, 5, 4) == 2
+
+
+@pytest.mark.acceptance
+def test_float_in_args():  # Вещественные числа в аргументах и результате
+    assert all_division(10.88, 2) == 5.44
+
+
+@pytest.mark.acceptance
+def test_data_type():  # Проверяем в результате деления тип данных
+    result = all_division(7, 2)
+    assert isinstance(result, float)
+
+
+@pytest.mark.acceptance
+def test_one_arg():  # Штатная работа при получении 1 числа
+    assert all_division(5) == 5
+
+
+@pytest.mark.acceptance
+def test_division_by_zero():  # Проверяем запрет деления на 0
+    with pytest.raises(ZeroDivisionError):
+        all_division(10, 0)
