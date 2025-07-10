@@ -5,8 +5,9 @@
 import pytest
 
 
-@pytest.mark.id_check(1, 2, 3)
-def test():
+@pytest.mark.id_check(1, 2, 3)  # через реквест?
+def test(request):
     # Здесь пишем код
-    print()
+    id = request.keywords.node.own_markers[0].args  # Нашёл через дебаг маркер и вытащил путь до args
+    print(*id)
     pass
