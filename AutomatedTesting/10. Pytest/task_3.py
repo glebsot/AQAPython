@@ -10,7 +10,7 @@ def all_division(*arg1):
     return division
 
 
-@pytest.mark.parametrize('a, result',
+@pytest.mark.parametrize('params, result',
                          [
                              pytest.param((30, 2), 15, marks=pytest.mark.smoke),
                              pytest.param((240, 3, 2, 5, 4), 2, marks=pytest.mark.smoke),
@@ -28,5 +28,5 @@ def all_division(*arg1):
                              "test_one_arg",
                              "test_division_by_zero"
                          ])
-def test_all_division(a, result):
-    assert all_division(*a) == result
+def test_all_division(params, result):
+    assert all_division(*params) == result

@@ -24,9 +24,7 @@ def generate_random_name():
         # chr(random.randint(97, 122) рандомно выбирает букву из диапазона, join добавляет их в строку.
         # Длина определяется через for i in range(random.randint(1, 15))
         word2 = ''.join(chr(random.randint(97, 122)) for i in range(random.randint(1, 15)))
-        final_list.append(word1)
-        final_list.append(word2)
-        yield f'{final_list[0]} {final_list[1]}'
+        yield f'{word1} {word2}'
 
 
 gen = generate_random_name()

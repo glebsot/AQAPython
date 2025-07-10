@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import time
 import pytest
 
 
@@ -14,8 +14,7 @@ def start_stop_time_class():
 
 @pytest.fixture()
 def start_stop_time_method():
-    start = datetime.now().time()
-    print(f'\nВремя начала выполнения метода: {start}')
+    start = time.time()
     yield
-    finish = datetime.now().time()
-    print(f'\nВремя окончания выполнения метода: {finish}')
+    finish = time.time()
+    print(f'\nВремя выполнения метода: {finish-start}')
