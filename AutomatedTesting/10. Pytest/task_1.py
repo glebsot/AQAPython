@@ -18,15 +18,13 @@ import random
 
 # Здесь пишем код
 def generate_random_name():
-    final_list = []
-    iteration = 0
-    while iteration < 2:
-        word = ''
-        for i in range(random.randint(1, 15)):
-            word += chr(random.randint(97, 122))
-        final_list.append(word)
-        iteration += 1
-    yield f'{final_list[0]} {final_list[1]}'
+    while True:  # True для бесконечного цикла
+        final_list = []  # Создаем список для хранения сгенерированных слов
+        word1 = ''.join(chr(random.randint(97, 122)) for i in range(random.randint(1, 15)))
+        # chr(random.randint(97, 122) рандомно выбирает букву из диапазона, join добавляет их в строку.
+        # Длина определяется через for i in range(random.randint(1, 15))
+        word2 = ''.join(chr(random.randint(97, 122)) for i in range(random.randint(1, 15)))
+        yield f'{word1} {word2}'
 
 
 gen = generate_random_name()
