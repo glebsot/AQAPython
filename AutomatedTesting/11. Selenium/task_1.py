@@ -40,6 +40,7 @@ try:
     sleep(3)
     saby_site_about = 'https://tensor.ru/about'
     assert driver.current_url == saby_site_about
+    print('Автотест пройден')
     sleep(3)
 finally:
     driver.quit()
