@@ -19,7 +19,7 @@ driver = webdriver.Chrome()
 try:
     driver.get(sbis_site)
     driver.maximize_window()
-
+    sleep(2)
     login = driver.find_element(By.CSS_SELECTOR, '[data-qa="controls-Render__field"] input')
     login.send_keys('Сотникбезфич', Keys.ENTER)
     sleep(2)
@@ -42,6 +42,7 @@ try:
     sleep(3)
     input_field_message = driver.find_element(By.CSS_SELECTOR, '[data-qa="textEditor_base_editor"]')
     input_field_message.send_keys('Привет, друг!')
+    sleep(2)
     button_msg = driver.find_element(By.CSS_SELECTOR, '[data-qa="msg-send-editor__send-button"]')
     button_msg.click()
     sleep(3)
