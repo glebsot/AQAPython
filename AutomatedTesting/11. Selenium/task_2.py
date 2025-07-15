@@ -4,60 +4,76 @@
 # Убедиться, что сообщение появилось в реестре
 # Удалить это сообщение и убедиться, что удалили
 # Для сдачи задания пришлите код и запись с экрана прохождения теста
+from time import sleep
 
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains, Keys
-from time import sleep
-from selenium.webdriver.chrome.options import Options
-
-chrome_options = Options()
-chrome_options.add_argument("--disable-notifications")  # Отключаем нотификации
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
-driver = webdriver.Chrome()
-def
+def test_message_to_yourself(start_driver):
     sbis_site = 'https://fix-online.sbis.ru/'
-    driver.get(sbis_site)
-    driver.maximize_window()
-    sleep(2)
-    login = driver.find_element(By.CSS_SELECTOR, '[data-qa="controls-Render__field"] input')
+    start_driver.get(sbis_site)
+    login = WebDriverWait(start_driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-qa="auth-AdaptiveLoginForm__login"] input')))
+    assert login.is_displayed(), 'Поле логин не отображается'
+    login = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-qa="auth-AdaptiveLoginForm__login"] input')))
     login.send_keys('Сотникбезфич', Keys.ENTER)
-    sleep(2)
-    password = driver.find_element(By.CSS_SELECTOR, '[type="password"]')
+    password = WebDriverWait(start_driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '[type="password"]')))
+    assert password.is_displayed(), 'Поле пароль не отображается'
+    password = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[type="password"]')))
     password.send_keys('Пароль123', Keys.ENTER)
-    sleep(5)
-    contacts = driver.find_element(By.CSS_SELECTOR, '[href="/page/dialogs"]')
-    actions = ActionChains(driver)
+    page_loaded = WebDriverWait(start_driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-qa="NavigationPanels-Accordion__title"]')))
+    assert page_loaded.is_displayed(), 'Страница не загружена'
+    # assert start_driver.current_url == sbis_site, f'Переход на {sbis_site} не осуществлён'
+    # ready_state = start_driver.execute_script("return document.readyState")
+    # assert ready_state == 'complete', 'Страница не загружена'
+    auth_cookie = start_driver.get_cookie("machine_name")
+    assert auth_cookie is not None, "Сессионная cookie не найдена"
+    actions = ActionChains(start_driver)
+    WebDriverWait(start_driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-qa="Контакты"]')))
+    contacts = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-qa="Контакты"]')))
     actions.double_click(contacts).perform()
-    sleep(5)
-    message_button = driver.find_element(By.CSS_SELECTOR, '[data-qa="sabyPage-addButton"]')
+    contacts_url = 'https://fix-online.sbis.ru/page/dialogs'
+    assert start_driver.current_url == contacts_url, "Не осуществлён переход в раздел 'Контакты'"
+    message_button = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-qa="sabyPage-addButton"]')))
     message_button.click()
-    sleep(3)
-    search_string = driver.find_element(By.CSS_SELECTOR, '[class="controls-StackTemplate-content"] input')
-    # search_string.click()
+    WebDriverWait(start_driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '[class="controls-StackTemplate-content"] input')))
+    search_string = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[class="controls-StackTemplate-content"] input')))
     search_string.send_keys('Понимаев Андрей Константинович')
-    sleep(3)
-    recipient = driver.find_element(By.CSS_SELECTOR, '[title="Понимаев Андрей Константинович"]')
+    WebDriverWait(start_driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '[templatename="Addressee/popup:Stack"] [data-qa="item"]')))
+    recipient = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[templatename="Addressee/popup:Stack"] [data-qa="item"]')))
     recipient.click()
-    sleep(3)
-    input_field_message = driver.find_element(By.CSS_SELECTOR, '[data-qa="textEditor_base_editor"]')
+    WebDriverWait(start_driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-qa="textEditor_base_editor"]')))
+    input_field_message = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-qa="textEditor_base_editor"]')))
     input_field_message.send_keys('Привет, друг!')
-    sleep(2)
-    button_msg = driver.find_element(By.CSS_SELECTOR, '[data-qa="msg-send-editor__send-button"]')
+    WebDriverWait(start_driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-qa="msg-send-editor__send-button"]')))
+    button_msg = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-qa="msg-send-editor__send-button"]')))
     button_msg.click()
-    sleep(3)
-    message_sender = driver.find_element(By.CSS_SELECTOR, '[data-qa="msg-dialogs-item__addressee"][title="Понимаев Андрей Константинович"]')
-    assert message_sender.is_displayed()
+    message_sender = WebDriverWait(start_driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-qa="msg-dialogs-item__addressee"][title="Понимаев Андрей '
+                                                     'Константинович"]')))
+    assert message_sender.is_displayed(), 'Сообщение не пришло'
     actions.context_click(message_sender).perform()
-    sleep(3)
-    delete_button = driver.find_elements(By.CSS_SELECTOR, '[title="Перенести в удаленные"] [class="ws-ellipsis '
+    delete_button = start_driver.find_elements(By.CSS_SELECTOR, '[title="Перенести в удаленные"] [class="ws-ellipsis '
                                                           'controls-Menu__content-wrapper_width"]')
     delete_button[0].click()
-    sleep(3)
-    empty_registry = driver.find_elements(By.CSS_SELECTOR, '[data-qa="hint-EmptyView__title"]')
+    empty_registry = start_driver.find_elements(By.CSS_SELECTOR, '[data-qa="hint-EmptyView__title"]')
     assert empty_registry, 'Сообщение не удалено'
     print('Автотест пройден')
-
-def teardown_function():
-    driver.quit()
