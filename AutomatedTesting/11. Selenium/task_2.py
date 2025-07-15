@@ -20,13 +20,13 @@ def test_message_to_yourself(start_driver):
     assert login.is_displayed(), 'Поле логин не отображается'
     login = WebDriverWait(start_driver, 15).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-qa="auth-AdaptiveLoginForm__login"] input')))
-    login.send_keys('Сотникбезфич', Keys.ENTER)
+    login.send_keys('Логин', Keys.ENTER)
     password = WebDriverWait(start_driver, 15).until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, '[type="password"]')))
     assert password.is_displayed(), 'Поле пароль не отображается'
     password = WebDriverWait(start_driver, 15).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, '[type="password"]')))
-    password.send_keys('Пароль123', Keys.ENTER)
+    password.send_keys('Пароль', Keys.ENTER)
     page_loaded = WebDriverWait(start_driver, 15).until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-qa="NavigationPanels-Accordion__title"]')))
     assert page_loaded.is_displayed(), 'Страница не загружена'
