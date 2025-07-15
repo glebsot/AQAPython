@@ -14,9 +14,10 @@ from selenium.webdriver.chrome.options import Options
 chrome_options = Options()
 chrome_options.add_argument("--disable-notifications")  # Отключаем нотификации
 
-sbis_site = 'https://fix-online.sbis.ru/'
+
 driver = webdriver.Chrome()
-try:
+def
+    sbis_site = 'https://fix-online.sbis.ru/'
     driver.get(sbis_site)
     driver.maximize_window()
     sleep(2)
@@ -29,7 +30,7 @@ try:
     contacts = driver.find_element(By.CSS_SELECTOR, '[href="/page/dialogs"]')
     actions = ActionChains(driver)
     actions.double_click(contacts).perform()
-    sleep(4)
+    sleep(5)
     message_button = driver.find_element(By.CSS_SELECTOR, '[data-qa="sabyPage-addButton"]')
     message_button.click()
     sleep(3)
@@ -57,5 +58,6 @@ try:
     empty_registry = driver.find_elements(By.CSS_SELECTOR, '[data-qa="hint-EmptyView__title"]')
     assert empty_registry, 'Сообщение не удалено'
     print('Автотест пройден')
-finally:
+
+def teardown_function():
     driver.quit()
